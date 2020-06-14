@@ -1,5 +1,6 @@
 import React from "react";
 import "./../sass/formulario.scss";
+import swal from "sweetalert";
 
 class Formulario extends React.Component {
   constructor(props) {
@@ -31,17 +32,33 @@ class Formulario extends React.Component {
   };
 
   mySubmitHandler = (event) => {
+    event.preventDefault();
     const pattern = new RegExp("^[A-Z]+$", "i");
     let numero = this.state.Contact;
     let nombre = this.state.Nombre;
     if (!Number(numero)) {
-      alert("COntacto es obligatorio, y no puede contener letras");
+      swal(
+        "Error detectado",
+        "Contacto es obligatorio, y no puede contener letras",
+        "error"
+      );
     }
     if (!pattern.test(nombre)) {
-      alert("El nombre es obligatorio y no puede contener numeros");
+      swal(
+        "Error detectado",
+        "El nombre es obligatorio y no puede contener numeros",
+        "error"
+      );
     }
-    if (nombre.length < 1) {
-      alert("Al parecer tienen un nombre muy extraño, intenta con otro...");
+    // if (nombre.length < 1) {
+    //   alert("Al parecer tienen un nombre muy extraño, intenta con otro...");
+    // }
+    if (Number(numero) && pattern.test(nombre) && nombre.length > 1) {
+      swal(
+        "Good job!",
+        "Todos los datos fueron validados con exito :)",
+        "success"
+      );
     }
   };
   render() {
@@ -89,7 +106,7 @@ class Formulario extends React.Component {
             ></textarea>
           </div>
           <div className="Boton">
-            <input type="submit" />
+            <input type="submit" value="Click me!" />
           </div>
         </form>
       </div>
