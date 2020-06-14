@@ -1,10 +1,10 @@
 import React from "react";
 import Formulario from "./components/Form";
-import "./App.css";
+import "./sass/formulario.scss";
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Formulario />
     </div>
   );

@@ -15,28 +15,40 @@ class Formulario extends React.Component {
   handleInputChange = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
-
-    // if (nam === "Contact") {
-    //   if (!Number(val)) {
-    //     alert("Debes escribir un numero en Contacto");
-    //   }
-    // }
+    const htmlmsg = document.getElementById("label_msg");
+    const htmlmsg_border = document.getElementById("message");
+    const borderstyle = "3px solid red";
     this.setState({ [nam]: val });
+    let msg = this.state.Message;
+    if (msg.length > 100) {
+      htmlmsg_border.style.border = borderstyle;
+      htmlmsg.textContent = "El mensaje no puede exceder 100 caracteres";
+    }
+    if (msg.length < 100) {
+      htmlmsg.textContent = "Mensaje";
+      htmlmsg_border.style.border = "none";
+    }
   };
 
   mySubmitHandler = (event) => {
+    const pattern = new RegExp("^[A-Z]+$", "i");
     let numero = this.state.Contact;
+    let nombre = this.state.Nombre;
     if (!Number(numero)) {
-      alert("En contacto debe ir un numero");
+      alert("COntacto es obligatorio, y no puede contener letras");
     }
-    console.log();
+    if (!pattern.test(nombre)) {
+      alert("El nombre es obligatorio y no puede contener numeros");
+    }
+    if (nombre.length < 1) {
+      alert("Al parecer tienen un nombre muy extraño, intenta con otro...");
+    }
   };
   render() {
     return (
       <div className="form_container">
-        <form onSubmit={this.mySubmitHandler}>
+        <form onSubmit={this.mySubmitHandler} className="form_form">
           <h1>Hello {this.state.Nombre} </h1>
-          <h1>Tu correo es : {this.state.Email}</h1>
           <div className="form_container__rows">
             <label>Nombre</label>
             <input
@@ -44,6 +56,7 @@ class Formulario extends React.Component {
               id="name"
               name="Nombre"
               onChange={this.handleInputChange}
+              placeholder="Your name here :D"
             ></input>
           </div>
           <div className="form_container__rows">
@@ -53,6 +66,7 @@ class Formulario extends React.Component {
               id="email"
               name="Email"
               onChange={this.handleInputChange}
+              placeholder="Your Email here :)"
             ></input>
           </div>
           <div className="form_container__rows">
@@ -62,14 +76,16 @@ class Formulario extends React.Component {
               id="contact"
               name="Contact"
               onChange={this.handleInputChange}
+              placeholder="Your number of contact here c:"
             ></input>
           </div>
           <div className="form_container__rows">
-            <label>Mensaje</label>
+            <label id="label_msg">Mensaje</label>
             <textarea
               id="message"
               name="Message"
               onChange={this.handleInputChange}
+              placeholder="Your message here :*"
             ></textarea>
           </div>
           <div className="Boton">
